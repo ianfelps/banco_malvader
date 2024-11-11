@@ -1,3 +1,5 @@
+package startpoint;
+
 import java.sql.Connection;
 
 public class ConexaoBanco { // classe ConexaoBanco
@@ -14,11 +16,11 @@ public class ConexaoBanco { // classe ConexaoBanco
         this.senha = senha;
     }
 
-    public Connection conectar(){
-        // ...
-    }
-
-    public void desconectar(){
-        // ...
-    }
+//    public Connection conectar(){
+//        // ...
+//    }
+//
+//    public void desconectar(){
+//        // ...
+//    }
 }

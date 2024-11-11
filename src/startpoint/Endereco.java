@@ -1,3 +1,5 @@
+package startpoint;
+
 public class Endereco { // classe Endereco
     
     // atributos
@@ -18,7 +20,7 @@ public class Endereco { // classe Endereco
         this.estado = estado;
     }
 
-    public String toString(){
-        // ...
-    }
+//    public String toString(){
+//        // ...
+//    }
 }
