@@ -2,9 +2,8 @@ package startpoint;
 
 import java.time.LocalDate;
 
-public abstract class Usuario { // classe abstrata Usuario
+public abstract class Usuario {
 
-    // atributos
     private int id;
     private String nome;
     private String cpf;
@@ -12,7 +11,6 @@ public abstract class Usuario { // classe abstrata Usuario
     private String telefone;
     private boolean validado;
 
-    // metodos
     public Usuario(int id, String nome, String cpf, String telefone, boolean validado) {
         this.id = id;
         this.nome = nome;
