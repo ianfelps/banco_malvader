@@ -4,31 +4,47 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import controllers.ClienteController;
+import controllers.UsuarioController;
 
 public class PasswordDialogView {
     private JDialog dialogoSenha;
 
-    public PasswordDialogView(ClienteController controller, String tipoUsuario) {
+    public PasswordDialogView(UsuarioController controller, String tipoUsuario) {
         dialogoSenha = new JDialog((Frame) null, "Autenticação - " + tipoUsuario, true);
-        dialogoSenha.setSize(300, 150);
-        dialogoSenha.setLayout(new FlowLayout());
+        dialogoSenha.setSize(400, 200); // Ajusta a altura para caber o novo botão
+        dialogoSenha.setLayout(new GridLayout(4, 2, 10, 10));
+
 
         JLabel labelSenha = new JLabel("Digite sua senha:");
         JPasswordField campoSenha = new JPasswordField(15);
+        JLabel labelEmail = new JLabel("Email:");
+        JTextField campoEmail = new JTextField();
         JButton botaoConfirmar = new JButton("Confirmar");
+        JButton botaoSemCadastro = new JButton("Não tem cadastro?"); // Novo botão
 
         botaoConfirmar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 char[] senha = campoSenha.getPassword();
-                controller.verificarSenha(tipoUsuario, new String(senha), PasswordDialogView.this); // Passando o objeto correto
+                String email = campoEmail.getText();
+                controller.verificarSenha(tipoUsuario, email, new String(senha), PasswordDialogView.this);
             }
         });
 
+        botaoSemCadastro.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dialogoSenha.dispose();
+                new CadastroView();
+            }
+        });
+
+        dialogoSenha.add(labelEmail);
+        dialogoSenha.add(campoEmail);
         dialogoSenha.add(labelSenha);
         dialogoSenha.add(campoSenha);
         dialogoSenha.add(botaoConfirmar);
+        dialogoSenha.add(botaoSemCadastro);
 
         dialogoSenha.setLocationRelativeTo(null);
         dialogoSenha.setVisible(true);

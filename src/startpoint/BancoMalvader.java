@@ -1,6 +1,6 @@
 package startpoint;
 
-import controllers.ClienteController;
+import controllers.UsuarioController;
 
 import javax.swing.*;
 
@@ -17,6 +17,6 @@ public class BancoMalvader {
     }
 
     public static void main(String[] args) {
-        ClienteController controller = new ClienteController();
+        UsuarioController controller = new UsuarioController();
     }
 }

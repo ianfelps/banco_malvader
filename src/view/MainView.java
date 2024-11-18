@@ -4,13 +4,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import controllers.ClienteController;
+import controllers.UsuarioController;
 
 public class MainView {
     private JFrame frame;
-    private ClienteController controller;
+    private UsuarioController controller;
 
-    public MainView(ClienteController controller) {
+    public MainView(UsuarioController controller) {
         this.controller = controller;
         frame = new JFrame("Banco Malvader");
         frame.setSize(450, 400);
