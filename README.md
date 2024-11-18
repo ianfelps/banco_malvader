@@ -39,7 +39,19 @@ Aplicação de banco em **Java**, com interface gráfica **Swing** e salvamento 
 * // tabelas e afins
 
 ## Interface Gráfica
-* // explicar a interface
+* **Tela Inicial**
+  * Tela do menu principal com as opções de Funcionário, Cliente e Sair do Programa (Os menus de Fncionário e Cliente solicitam "login").
+* **Tela Funcionário**
+  * **Abertura de Conta:** Permite o usuário abrir novas contas bancárias (Poupança ou Corrente);
+  * **Encerramento de Conta:** Permite o usuário encerrar contas bancárias a partir do número (Solicita senha de adiministrador);
+  * **Consulta de Dados:** Permite o usuário consultar dados de Conta, Funcionário e Cliente;
+  * **Aletração de Dados:** Permite o usuário alterar dados de Conta, Funcionário e Cliente;
+  * **Cadastro de Funcionários:** Permite o usuário cadastrar novos Funcionários (Solicita senha de adiministrador);
+  * **Geração de Relatórios:** Permite o usuário gerar um relatório geral e exportá-lo para o Excel (Solicita senha de adiministrador);
+  * **Sair:** Permite o usuário sair da tela de Funcionário e voltar para Tela Inicial.
+* **Tela Cliente**
+  * **Opções de Conta:** Permite o usuário Exibir o Saldo (Solicita senha da conta), Depositar, Sacar (Solicita senha da conta e verifica saldo), Exibir Extrato (E poder exportar para o Excel) e Consultar Limite (Solicita senha da conta).
+  * **Sair:** Permite o usuário sair da tela de Funcionário e voltar para Tela Inicial.
 
 ## Fluxo de Execução
 * // explicar fluxo de execução do sistema
