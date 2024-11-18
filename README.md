@@ -40,7 +40,7 @@ Aplicação de banco em **Java**, com interface gráfica **Swing** e salvamento 
 
 ## Interface Gráfica
 * **Tela Inicial**
-  * Tela do menu principal com as opções de Funcionário, Cliente e Sair do Programa (Os menus de Fncionário e Cliente solicitam "login").
+  * Tela do menu principal com as opções de Funcionário, Cliente e Sair do Programa (Os menus de Funcionário e Cliente solicitam "login").
 * **Tela Funcionário**
   * **Abertura de Conta:** Permite o usuário abrir novas contas bancárias (Poupança ou Corrente);
   * **Encerramento de Conta:** Permite o usuário encerrar contas bancárias a partir do número (Solicita senha de adiministrador);
