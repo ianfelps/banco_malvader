@@ -8,9 +8,9 @@ Aplicação de banco em **Java**, com interface gráfica **Swing** e salvamento 
 
 ## Diagramas de Arquitetura
 ### Diagrama de Classe
-* // diagrama de classe
+![Diagrama de Classe](/diagramas/DiagramaClasse.png "Diagrama de Classe")
 ### Diagrama de Sequência
-* // diagrama de sequencia
+![Diagrama de Sequência](/diagramas/DiagramaSequencia.png "Diagrama de Sequeência")
 
 ## Estrutura do Código
 ### controllers
