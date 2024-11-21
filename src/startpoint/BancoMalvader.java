@@ -17,6 +17,18 @@ public class BancoMalvader {
     }
 
     public static void main(String[] args) {
-        UsuarioController controller = new UsuarioController();
+        SwingUtilities.invokeLater(() -> {
+            try {
+                UsuarioController controller = new UsuarioController();
+                JFrame mainView = controller.getMainView();
+                mainView.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                mainView.setSize(400, 600);
+                mainView.setLocationRelativeTo(null);
+                mainView.setVisible(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Erro ao iniciar o sistema: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+        });
     }
 }

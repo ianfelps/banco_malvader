@@ -32,7 +32,7 @@ public class FuncionarioDAO {
 
                         if(tipoUser.equals("funcionario")){
                             System.out.println("ID: " + id + ", Nome: " + nome + ", Email: " + email);
-                            return Optional.of(new Cliente(id, nome, cpf, telefone, senhaQuery, true));
+                            return Optional.of(new Cliente(id, nome, email, cpf, telefone, senhaQuery, true));
                         }
                         else{
                             System.out.println("Nenhum usuario encontrado.");

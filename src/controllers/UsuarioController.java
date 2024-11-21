@@ -3,9 +3,10 @@ package controllers;
 import dao.ClienteDAO;
 import dao.FuncionarioDAO;
 import models.Cliente;
+import view.FuncionarioView;
 import view.MainView;
 import view.PasswordDialogView;
-import view.WelcomeView;
+import view.ClienteView;
 
 import javax.swing.*;
 import java.util.Optional;
@@ -28,8 +29,12 @@ public class UsuarioController {
 
             if (clienteLogado.isPresent()) {
                 passwordDialogView.dispose();
-                mainView.getFrame().dispose();
-                new WelcomeView(clienteLogado.get());
+                mainView.dispose();
+                ClienteView clienteView = new ClienteView(clienteLogado.get());
+                clienteView.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                clienteView.setSize(400, 600);
+                clienteView.setLocationRelativeTo(null);
+                clienteView.setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(null, "Senha incorreta ou usuário não encontrado.", "Erro", JOptionPane.ERROR_MESSAGE);
             }
@@ -39,8 +44,12 @@ public class UsuarioController {
 
             if (funcionarioLogado.isPresent()) {
                 passwordDialogView.dispose();
-                mainView.getFrame().dispose();
-                new WelcomeView(funcionarioLogado.get());
+                mainView.dispose();
+                FuncionarioView funcionarioView = new FuncionarioView(funcionarioLogado.get());
+                funcionarioView.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                funcionarioView.setSize(400, 600);
+                funcionarioView.setLocationRelativeTo(null);
+                funcionarioView.setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(null, "Senha incorreta ou usuário não encontrado.", "Erro", JOptionPane.ERROR_MESSAGE);
             }

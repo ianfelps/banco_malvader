@@ -4,57 +4,105 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URL;
+
 import controllers.UsuarioController;
 
-public class MainView {
-    private JFrame frame;
-    private UsuarioController controller;
+public class MainView extends JFrame{
+        private final JLabel iconeLabel;
+        private final JLabel tituloLabel;
+        private final JLabel descricaoLabel;
+        private final JButton clienteButton;
+        private final JButton funcionarioButton;
+        private final JButton encerrarButton;
+        private UsuarioController controller;
 
-    public MainView(UsuarioController controller) {
-        this.controller = controller;
-        frame = new JFrame("Banco Malvader");
-        frame.setSize(450, 400);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // construtor
+        public MainView(UsuarioController controller) {
+            super("Banco Malvader");
+            this.controller = controller;
+            setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS)); // layout da tela
 
-        JButton buttonFuncionario = new JButton("1. Funcionario");
-        JButton buttonCliente = new JButton("2. Cliente");
-        JButton buttonSair = new JButton("3. Sair do Programa");
+            Font primariaFont = new Font("SansSerif", Font.BOLD, 30); // fonte
+            Font secundariaFont = new Font("SansSerif", Font.BOLD, 15);
 
-        JLabel label = new JLabel("Selecione uma das opções para começar.");
-        label.setHorizontalAlignment(SwingConstants.CENTER);
+            // label de titulo e descricao
+            tituloLabel = new JLabel("Banco Malvader");
+            tituloLabel.setFont(primariaFont); // setar fonte
+            tituloLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JPanel panel = new JPanel(new GridLayout(4, 1, 10, 10));
-        panel.add(label);
-        panel.add(buttonFuncionario);
-        panel.add(buttonCliente);
-        panel.add(buttonSair);
+            descricaoLabel = new JLabel("Aqui o seu dinheiro tem forca!");
+            descricaoLabel.setFont(secundariaFont);
+            descricaoLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        buttonFuncionario.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                controller.abrirDialogoSenha("Funcionario");
+            // botoes
+            clienteButton = new JButton("Login - Cliente");
+            clienteButton.setFont(secundariaFont);
+            clienteButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+            clienteButton.setMinimumSize(new Dimension(200, 50));
+            clienteButton.setPreferredSize(new Dimension(200, 50));
+            clienteButton.setMaximumSize(new Dimension(200, 50));
+
+            funcionarioButton = new JButton("Login - Funcionario");
+            funcionarioButton.setFont(secundariaFont);
+            funcionarioButton.setPreferredSize(new Dimension(200, 50));
+            funcionarioButton.setMaximumSize(new Dimension(200, 50));
+            funcionarioButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+            encerrarButton = new JButton("Encerrar Programa");
+            encerrarButton.setFont(secundariaFont);
+            encerrarButton.setPreferredSize(new Dimension(200, 50));
+            encerrarButton.setMaximumSize(new Dimension(200, 50));
+            encerrarButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+            // icone
+            URL resource = getClass().getResource("/Logo.png");
+            if (resource == null) {
+                JOptionPane.showMessageDialog(this, "Erro: Arquivo logo.jpg não encontrado.", "Erro", JOptionPane.ERROR_MESSAGE);
+                System.exit(1);
             }
-        });
+            ImageIcon icone = new ImageIcon(resource);
+            Image img = icone.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+            iconeLabel = new JLabel(new ImageIcon(img));
+            iconeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        buttonCliente.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                controller.abrirDialogoSenha("Cliente");
-            }
-        });
+            // adicionar elementos
+            add(Box.createVerticalStrut(20));
+            add(iconeLabel);
+            add(Box.createVerticalStrut(10));
+            add(tituloLabel);
+            add(descricaoLabel);
+            add(Box.createVerticalStrut(20));
+            add(clienteButton);
+            add(Box.createVerticalStrut(20));
+            add(funcionarioButton);
+            add(Box.createVerticalStrut(20));
+            add(encerrarButton);
+            add(Box.createVerticalStrut(20));
 
-        buttonSair.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
-        });
+            // eventos dos botoes
+            clienteButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    // Criar pop-up para login de cliente
+                    controller.abrirDialogoSenha("Cliente");
+                }
+            });
 
-        frame.add(panel);
-        frame.setVisible(true);
-    }
+            funcionarioButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    // Criar pop-up para login de funcionário
+                    controller.abrirDialogoSenha("Funcionario");
+                }
+            });
 
-    public JFrame getFrame() {
-        return frame;
-    }
+            encerrarButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    // Fechar o sistema
+                    System.exit(0);
+                }
+            });
+        }
 }
