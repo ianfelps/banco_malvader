@@ -14,14 +14,17 @@ import java.util.Optional;
 public class UsuarioController {
     private MainView mainView;
 
+    // construtor que inicializa a interface principal
     public UsuarioController() {
         mainView = new MainView(this);
     }
 
+    // metodo que abre um dialogo para o usuário inserir a senha, baseado no tipo de usuario
     public void abrirDialogoSenha(String tipoUsuario) {
         new PasswordDialogView(this, tipoUsuario);
     }
 
+    // metodo para verificar as credenciais fornecidas pelo usuario e, se validas, abre a interface correspondente ao tipo de usuario
     public void verificarSenha(String tipoUsuario, String email ,String senha, PasswordDialogView passwordDialogView) {
         if (tipoUsuario.equals("Cliente")) {
             ClienteDAO clienteDAO = new ClienteDAO();
@@ -59,6 +62,7 @@ public class UsuarioController {
         }
     }
 
+    // metodo para retornar a referencia à mainView
     public MainView getMainView() {
         return mainView;
     }

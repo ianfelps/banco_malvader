@@ -84,7 +84,7 @@ public class MainView extends JFrame{
             clienteButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    // Criar pop-up para login de cliente
+                    // criar pop-up para login de cliente
                     controller.abrirDialogoSenha("Cliente");
                 }
             });
@@ -92,7 +92,7 @@ public class MainView extends JFrame{
             funcionarioButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    // Criar pop-up para login de funcionário
+                    // criar pop-up para login de funcionário
                     controller.abrirDialogoSenha("Funcionario");
                 }
             });
@@ -100,7 +100,7 @@ public class MainView extends JFrame{
             encerrarButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    // Fechar o sistema
+                    // fechar o sistema
                     System.exit(0);
                 }
             });

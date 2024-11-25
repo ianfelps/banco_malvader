@@ -10,6 +10,7 @@ public class UsuarioConta {
     private String dataNascimento;
     private String telefone;
 
+    // getters e setters
     public void setContas(List<Conta> contas) {
         this.contas = contas;
     }
@@ -65,6 +66,7 @@ public class UsuarioConta {
     private String tipoUsuario;
     private List<Conta> contas;
 
+    // construtor
     public UsuarioConta(String nome, String email, String cpf, String dataNascimento, String telefone, String tipoUsuario) {
         this.nome = nome;
         this.email = email;
@@ -75,19 +77,16 @@ public class UsuarioConta {
         this.contas = new ArrayList<>();
     }
 
-    // Método para adicionar uma conta ao objeto
+    // metodo para adicionar uma conta ao objeto
     public void adicionarConta(int idConta, String numeroConta, String agencia, double saldo, String tipoConta) {
         Conta conta = new Conta(idConta, numeroConta, agencia, saldo, tipoConta);
         this.contas.add(conta);
     }
 
-    // Getters e Setters (se necessário)
-
+    // metodo para retornar contas
     public List<Conta> getContas() {
         return contas;
     }
-
-    // Outros getters e setters para nome, email, cpf, etc.
 
     public static class Conta {
         private String numeroConta;
@@ -97,6 +96,7 @@ public class UsuarioConta {
 
         private int idConta;
 
+        // construtor
         public Conta(int idConta, String numeroConta, String agencia, double saldo, String tipoConta) {
             this.idConta = idConta;
             this.numeroConta = numeroConta;
@@ -105,6 +105,7 @@ public class UsuarioConta {
             this.tipoConta = tipoConta;
         }
 
+        // getters e setters
         public int getIdConta() {
             return idConta;
         }
@@ -113,7 +114,6 @@ public class UsuarioConta {
             this.idConta = idConta;
         }
 
-        // Getters e setters
         public String getNumeroConta() {
             return numeroConta;
         }

@@ -2,6 +2,7 @@ package models;
 
 public class Endereco { // classe Endereco
 
+    // getters e setters
     public String getCep() {
         return cep;
     }
@@ -58,7 +59,7 @@ public class Endereco { // classe Endereco
     private String cidade;
     private String estado;
 
-    // metodos
+    // construtor
     public Endereco(String cep, String local, int numeroCasa, String bairro, String cidade, String estado) {
         this.cep = cep;
         this.local = local;

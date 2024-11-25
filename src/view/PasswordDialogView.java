@@ -9,6 +9,7 @@ import controllers.UsuarioController;
 public class PasswordDialogView {
     private JDialog dialogoSenha;
 
+    // metodo para exibir pop up de autenticacao
     public PasswordDialogView(UsuarioController controller, String tipoUsuario) {
         dialogoSenha = new JDialog((Frame) null, "Autenticação - " + tipoUsuario, true);
         dialogoSenha.setSize(400, 200); // Ajusta a altura para caber o novo botão

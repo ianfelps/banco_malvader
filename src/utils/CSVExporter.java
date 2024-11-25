@@ -8,13 +8,15 @@ import java.io.IOException;
 import java.util.List;
 
 public class CSVExporter {
+
+    // metodo para exportar dados para o CSV
     public void exportarParaCSV(List<Transacao> transacoes, String caminhoArquivo) {
         try (CSVWriter writer = new CSVWriter(new FileWriter(caminhoArquivo))) {
-            // Cabeçalho
+            // cabecalho
             String[] cabecalho = {"ID da Conta", "Tipo", "Valor"};
             writer.writeNext(cabecalho);
 
-            // Dados
+            // dados
             for (Transacao transacao : transacoes) {
                 String[] linha = {
                         String.valueOf(transacao.getIdConta()),

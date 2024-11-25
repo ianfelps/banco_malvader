@@ -7,7 +7,7 @@ public abstract class Conta { // classe Conta
     private double saldo;
     private Cliente cliente;
 
-    // metodos
+    // construtor
     public Conta(int numero, String agencia, double saldo, Cliente cliente){
         this.numero = numero;
         this.agencia = agencia;

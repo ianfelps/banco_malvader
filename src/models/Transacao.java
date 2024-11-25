@@ -7,7 +7,7 @@ public class Transacao {
     private double valor;
     private String dataTransacao;  // Pode usar LocalDate se preferir
 
-    // Construtor
+    // construtor
     public Transacao(int idTransacao, int idConta, String tipoTransacao, double valor, String dataTransacao) {
         this.idTransacao = idTransacao;
         this.idConta = idConta;
@@ -16,7 +16,7 @@ public class Transacao {
         this.dataTransacao = dataTransacao;
     }
 
-    // Getters e Setters
+    // getters e setters
     public int getIdTransacao() {
         return idTransacao;
     }

@@ -24,12 +24,12 @@ public class ClienteView extends JFrame {
         Font primariaFont = new Font("SansSerif", Font.BOLD, 30); // fonte
         Font secundariaFont = new Font("SansSerif", Font.BOLD, 15);
 
-        // Label de título
+        // label de titulo
         tituloLabel = new JLabel("Área do Cliente");
         tituloLabel.setFont(primariaFont);
         tituloLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        // Botões
+        // botoes
         saldoButton = new JButton("Exibir Saldo");
         saldoButton.setFont(secundariaFont);
         saldoButton.setPreferredSize(new Dimension(200, 50));
@@ -65,13 +65,13 @@ public class ClienteView extends JFrame {
         sairButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         sairButton.addActionListener(e -> dispose());
 
-        // Ícone
+        // icone
         ImageIcon icone = new ImageIcon(getClass().getResource("/Logo.png"));
         Image img = icone.getImage().getScaledInstance(35, 35, Image.SCALE_SMOOTH);
         iconeLabel = new JLabel(new ImageIcon(img));
         iconeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        // Adicionar elementos
+        // adicionar elementos
         add(iconeLabel);
         add(Box.createVerticalStrut(20));
         add(tituloLabel);
@@ -88,6 +88,7 @@ public class ClienteView extends JFrame {
         add(Box.createVerticalStrut(20));
     }
 
+    // metodo para exibir o pop up para exibir saldo
     private void exibirSaldo() {
         try {
             double saldo = bancoController.consultarSaldo();
@@ -97,12 +98,14 @@ public class ClienteView extends JFrame {
         }
     }
 
+    // metodo para exibir o pop up para realizar deposito
     private void realizarDeposito() {
         String valorStr = JOptionPane.showInputDialog(this, "Digite o valor do depósito:");
         double valor = Double.parseDouble(valorStr);
         bancoController.realizarDeposito(valor);
     }
 
+    // metodo para exibir o pop up para realizar saque
     private void realizarSaque() {
         String valorStr = JOptionPane.showInputDialog(this, "Digite o valor do saque:");
         double valor = Double.parseDouble(valorStr);
@@ -110,6 +113,7 @@ public class ClienteView extends JFrame {
 
     }
 
+    // metodo para exibir o pop up para exibir extrato
     private void exibirExtrato() {
         try {
             bancoController.gerarRelatorio();

@@ -8,6 +8,7 @@ public class ConexaoBanco { // classe ConexaoBanco
     private String usuario;
     private String senha;
 
+    // construtor
     public ConexaoBanco(String url, String usuario, String senha){
         this.url = url;
         this.usuario = usuario;

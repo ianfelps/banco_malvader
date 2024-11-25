@@ -11,6 +11,7 @@ public abstract class Usuario {
     private String telefone;
     private boolean validado;
 
+    // construtor
     public Usuario(int id, String nome, String cpf, String telefone, boolean validado) {
         this.id = id;
         this.nome = nome;
@@ -28,7 +29,8 @@ public abstract class Usuario {
     // public String consultarDados() {
     //     // ...
     // }
-    //Getters e Setters
+
+    // getters e setters
     public boolean isValidado() {
         return validado;
     }

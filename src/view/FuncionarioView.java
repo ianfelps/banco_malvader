@@ -119,7 +119,7 @@ public class FuncionarioView extends JFrame {
         add(Box.createVerticalStrut(20));
     }
 
-    // Eventos dos botões
+    // eventos dos botoes
     private void abrirConta() {
         String[] tiposConta = {"Poupança", "Corrente"};
         String tipoConta = (String) JOptionPane.showInputDialog(this, "Selecione o tipo de conta:", "Abertura de Conta",
@@ -204,7 +204,7 @@ public class FuncionarioView extends JFrame {
         }
     }
 
-
+    // metodo para exibir o pop up para encerrar conta
     private void encerrarConta() {
         JPanel panel = new JPanel(new GridLayout(0, 2, 10, 10));
 
@@ -230,7 +230,7 @@ public class FuncionarioView extends JFrame {
         }
     }
 
-
+    // metodo para exibir o pop up para consultar dados
     private void consultarDados() {
         String[] opcoes = {"Conta", "Funcionário", "Cliente"};
         String escolha = (String) JOptionPane.showInputDialog(this, "Escolha uma opção para consultar:", "Consulta de Dados",
@@ -278,6 +278,7 @@ public class FuncionarioView extends JFrame {
         }
     }
 
+    // metodo para exibir o pop up para alterar dados
     private void alterarDados() {
 
             JPanel panel = new JPanel(new GridLayout(0, 2, 10, 10));
@@ -313,6 +314,7 @@ public class FuncionarioView extends JFrame {
     }
 
 
+    // metodo para exibir o pop up para cadastrar funcionario
     private void cadastrarFuncionario() {
         JPanel panel = new JPanel(new GridLayout(0, 2, 10, 10));
 
@@ -339,6 +341,7 @@ public class FuncionarioView extends JFrame {
         }
     }
 
+    // metodo para exibir o pop up para gerar relatorio
     private void gerarRelatorio() {
         String senhaAdmin = JOptionPane.showInputDialog(this, "Digite a senha do administrador:");
         if (senhaAdmin != null && senhaAdmin.equals("admin123")) {
@@ -352,21 +355,21 @@ public class FuncionarioView extends JFrame {
                 controller.exportarRelatorioParaCSV(relatorio);
                 JOptionPane.showMessageDialog(this, "Relatório exportado com sucesso!");
 
-                // Criando a estrutura da janela do relatório
+                // criando a estrutura da janela do relatorio
                 JFrame relatorioFrame = new JFrame("Relatório do Usuário");
                 relatorioFrame.setSize(500, 400);
                 relatorioFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 relatorioFrame.setLocationRelativeTo(null);
 
-                // Criando a área de texto e configurando o layout
+                // criando a area de texto e configurando o layout
                 JTextArea textArea = new JTextArea();
                 textArea.setEditable(false);
 
-                // Montando o conteúdo do relatório
+                // montando o conteudo do relatorio
                 StringBuilder relatorioTexto = new StringBuilder();
                 relatorioTexto.append("Relatório do Usuário - CPF: ").append(cpfDoUsuario).append("\n\n");
 
-                // Informações das Contas
+                // informacoes das Contas
                 for (UsuarioConta.Conta conta : relatorio.getContas()) {
                     relatorioTexto.append("Conta: ").append(conta.getNumeroConta())
                             .append(" | Agência: ").append(conta.getAgencia())
@@ -375,7 +378,7 @@ public class FuncionarioView extends JFrame {
                 }
                 relatorioTexto.append("\n");
 
-                // Informações das Transações
+                // informacoes das Transacoes
                 for (Transacao transacao : relatorio.getTransacoes()) {
                     relatorioTexto.append("Transação: ").append(transacao.getTipoTransacao())
                             .append(" | Valor: R$ ").append(transacao.getValor())
@@ -383,12 +386,12 @@ public class FuncionarioView extends JFrame {
                             .append("\n");
                 }
 
-                // Definindo o texto no JTextArea e adicionando um scroll
+                // definindo o texto no JTextArea e adicionando um scroll
                 textArea.setText(relatorioTexto.toString());
                 JScrollPane scrollPane = new JScrollPane(textArea);
                 relatorioFrame.add(scrollPane);
 
-                // Exibindo a janela
+                // exibindo a janela
                 relatorioFrame.setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(this, "Relatorio não encontrado!", "Erro", JOptionPane.ERROR_MESSAGE);

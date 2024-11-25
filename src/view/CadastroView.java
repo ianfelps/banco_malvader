@@ -16,12 +16,12 @@ public class CadastroView {
         telaCadastro.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         telaCadastro.setLayout(new GridBagLayout());
 
-        // Configuração do layout
+        // configuração do layout
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5); // Espaçamento entre componentes
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        // Campos do formulário
+        // campos do formulario
         JLabel labelNome = new JLabel("Nome:");
         JTextField campoNome = new JTextField();
 
@@ -43,12 +43,12 @@ public class CadastroView {
         JLabel labelTipoCliente = new JLabel("Tipo de Cliente:");
         JComboBox<String> comboTipoCliente = new JComboBox<>(new String[]{"CLIENTE", "FUNCIONARIO"});
 
-        // Campo para cargo, só visível quando o tipo de cliente for FUNCIONARIO
+        // campo para cargo, so visivel quando o tipo de cliente for FUNCIONARIO
         JLabel labelCargo = new JLabel("Cargo:");
         JComboBox<String> comboCargo = new JComboBox<>(new String[]{"ADMINISTRADOR", "GERENTE", "ATENDENTE", "DESENVOLVEDOR"});
-        comboCargo.setEnabled(false); // Desabilita o combo de cargos inicialmente
+        comboCargo.setEnabled(false); // desabilita o combo de cargos inicialmente
 
-        // Campos de endereço
+        // campos de endereço
         JLabel labelCep = new JLabel("CEP:");
         JTextField campoCep = new JTextField();
 
@@ -70,11 +70,11 @@ public class CadastroView {
         JButton botaoCadastrar = new JButton("Cadastrar");
         JButton botaoCancelar = new JButton("Cancelar");
 
-        // Adiciona os componentes à tela com alinhamento
-        gbc.gridx = 0; // Coluna 0
-        gbc.gridy = 0; // Linha 0
+        // adiciona os componentes a tela com alinhamento
+        gbc.gridx = 0; // coluna 0
+        gbc.gridy = 0; // linha 0
         telaCadastro.add(labelNome, gbc);
-        gbc.gridx = 1; // Coluna 1
+        gbc.gridx = 1; // coluna 1
         telaCadastro.add(campoNome, gbc);
 
         gbc.gridx = 0;
@@ -119,7 +119,7 @@ public class CadastroView {
         gbc.gridx = 1;
         telaCadastro.add(comboCargo, gbc);
 
-        // Adiciona os campos de endereço
+        // adiciona os campos de endereco
         gbc.gridx = 0;
         gbc.gridy++;
         telaCadastro.add(labelCep, gbc);
@@ -156,17 +156,17 @@ public class CadastroView {
         gbc.gridx = 1;
         telaCadastro.add(campoEstado, gbc);
 
-        // Adiciona os botões
+        // adiciona os botoes
         JPanel painelBotoes = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
         painelBotoes.add(botaoCadastrar);
         painelBotoes.add(botaoCancelar);
 
         gbc.gridx = 0;
         gbc.gridy++;
-        gbc.gridwidth = 2; // Botões ocupam duas colunas
+        gbc.gridwidth = 2; // botoes ocupam duas colunas
         telaCadastro.add(painelBotoes, gbc);
 
-        // Ação do botão Cadastrar
+        // acao do botao Cadastrar
         botaoCadastrar.addActionListener(e -> {
             String nome = campoNome.getText();
             String email = campoEmail.getText();
@@ -177,7 +177,7 @@ public class CadastroView {
             String tipoCliente = (String) comboTipoCliente.getSelectedItem();
             String cargo = null;
 
-            // Obtendo os valores dos campos de endereço
+            // obtendo os valores dos campos de endereco
             String cep = campoCep.getText();
             String logradouro = campoLogradouro.getText();
             int numero = Integer.parseInt(campoNumero.getText());
@@ -189,7 +189,7 @@ public class CadastroView {
                 cargo = (String) comboCargo.getSelectedItem();
             }
 
-            // Verificando se os campos obrigatórios estão preenchidos
+            // verificando se os campos obrigatorios estao preenchidos
             if (nome.isEmpty() || email.isEmpty() || senha.isEmpty() || cpf.isEmpty() || telefone.isEmpty() || dataNascimentoStr.isEmpty() ||
                     cep.isEmpty() || logradouro.isEmpty() || bairro.isEmpty() || cidade.isEmpty() || estado.isEmpty()) {
                 JOptionPane.showMessageDialog(telaCadastro,
@@ -202,7 +202,7 @@ public class CadastroView {
             try {
                 LocalDate dataNascimento = LocalDate.parse(dataNascimentoStr, java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 
-                // Chama o DAO para inserir o cliente
+                // chama o DAO para inserir o cliente
                 ClienteDAO clienteDAO = new ClienteDAO();
                 Endereco enderecoCliente = new Endereco(cep, logradouro, numero, bairro, cidade, estado);
                 clienteDAO.inserirCliente(nome, email, senha, cpf, telefone, dataNascimento.toString(), enderecoCliente, tipoCliente, cargo);
@@ -212,7 +212,7 @@ public class CadastroView {
                         "Sucesso",
                         JOptionPane.INFORMATION_MESSAGE);
 
-                telaCadastro.dispose(); // Fecha a tela de cadastro
+                telaCadastro.dispose(); // fecha a tela de cadastro
             } catch (DateTimeParseException ex) {
                 JOptionPane.showMessageDialog(telaCadastro,
                         "Data de nascimento inválida. Use o formato dd/MM/yyyy.",
@@ -226,10 +226,10 @@ public class CadastroView {
             }
         });
 
-        // Ação do botão Cancelar
+        // acao do botao Cancelar
         botaoCancelar.addActionListener(e -> telaCadastro.dispose());
 
-        // Ação para mostrar ou ocultar o campo de Cargo
+        // acao para mostrar ou ocultar o campo de Cargo
         comboTipoCliente.addActionListener(e -> {
             if (comboTipoCliente.getSelectedItem().equals("FUNCIONARIO")) {
                 labelCargo.setVisible(true);
@@ -240,7 +240,7 @@ public class CadastroView {
             }
         });
 
-        // Inicialmente o campo de Cargo está oculto
+        // inicialmente o campo de Cargo esta oculto
         labelCargo.setVisible(false);
         comboCargo.setEnabled(false);
 

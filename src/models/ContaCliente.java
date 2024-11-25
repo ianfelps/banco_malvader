@@ -3,6 +3,7 @@ package models;
 public class ContaCliente {
     private String agencia;
 
+    // getters e setters
     public String getDataVencimento() {
         return dataVencimento;
     }
@@ -91,6 +92,7 @@ public class ContaCliente {
         this.agencia = agencia;
     }
 
+    // atributos
     private String numeroConta;
     private String nomeCliente;
     private String cpf;
@@ -102,7 +104,7 @@ public class ContaCliente {
     private double limite;
     private String dataVencimento;
 
-    // Construtor para Conta Poupança
+    // construtor para Conta Poupança
     public ContaCliente(String agencia, String numeroConta, String nomeCliente, String cpf,
                         String dataNascimento, String telefone, String endereco, String senha, String tipoConta) {
         this.agencia = agencia;
@@ -116,7 +118,7 @@ public class ContaCliente {
         this.tipoConta = tipoConta;
     }
 
-    // Construtor para Conta Corrente
+    // construtor para Conta Corrente
     public ContaCliente(String agencia, String numeroConta, String nomeCliente, String cpf,
                         String dataNascimento, String telefone, String endereco, String senha,
                         String tipoConta, double limite, String dataVencimento) {
@@ -125,5 +127,4 @@ public class ContaCliente {
         this.dataVencimento = dataVencimento;
     }
 
-    // Getters e Setters (omitidos para simplicidade)
 }

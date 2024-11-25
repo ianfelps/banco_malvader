@@ -10,7 +10,7 @@ public class Relatorio { // classe Relatorio
     private LocalDateTime data_geracao;
     private List<String> dados;
 
-    // metodos
+    // construtor
     public Relatorio(String tipo, LocalDateTime data_geracao, List<String> dados) {
         this.tipo = tipo;
         this.data_geracao = data_geracao;

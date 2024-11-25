@@ -11,6 +11,7 @@ public class ClienteDAO {
 
     private static String sql;
 
+    // metodo para obter um usuario (Cliente) do banco de dados baseado no email e senha fornecidos
     public Optional<Cliente> getUser(String email, String senha) {
         setSql("SELECT * FROM usuario WHERE email = ?");
 
@@ -57,6 +58,7 @@ public class ClienteDAO {
         }
     }
 
+    // metodo para inserir um novo cliente na tabela 'usuario' do banco de dados
     public void inserirCliente(String nome, String email, String senha, String cpf, String telefone, String dataNascimento, Endereco enderecoUsuario, String tipoCliente, String cargo) {
         setSql("INSERT INTO usuario (nome, email, senha, cpf, telefone, data_nascimento, tipo_usuario) VALUES (?, ?, ?, ?, ?, ?, ?)");
         try (Connection conn = ConnectionFactory.getConnection();
@@ -88,10 +90,12 @@ public class ClienteDAO {
         }
     }
 
+    // metodo para definir a query SQL a ser executada
     public static void setSql(String sql) {
         ClienteDAO.sql = sql;
     }
 
+    // metodo para obter a query SQL atual
     public static String getSql() {
         return sql;
     }

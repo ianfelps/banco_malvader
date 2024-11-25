@@ -12,6 +12,7 @@ import java.util.List;
 public class BancoController {
     private BancoDAO bancoDAO;
 
+    // construtor que inicializa o BancoDAO com o cliente fornecido
     public BancoController(Cliente cliente) {
         try {
             this.bancoDAO = new BancoDAO(cliente);
@@ -21,6 +22,7 @@ public class BancoController {
         }
     }
 
+    // metodo para consultar o saldo do cliente
     public double consultarSaldo() {
         try {
             return bancoDAO.consultarSaldo();
@@ -30,6 +32,7 @@ public class BancoController {
         }
     }
 
+    // metodo para realizar um depósito na conta do cliente
     public void realizarDeposito(double valor) {
         try {
             bancoDAO.realizarDeposito(valor);
@@ -39,6 +42,7 @@ public class BancoController {
         }
     }
 
+    // metodo para realizar um saque da conta do cliente
     public void realizarSaque(double valor) {
         try {
             double saldoAtual = bancoDAO.consultarSaldo();
@@ -53,6 +57,7 @@ public class BancoController {
         }
     }
 
+    // metodo para gerar um relatorio das transacoes do cliente
     public void gerarRelatorio() {
         try {
             List<Transacao> transacoes = bancoDAO.obterTransacoes();

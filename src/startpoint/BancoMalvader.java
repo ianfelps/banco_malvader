@@ -8,10 +8,12 @@ public class BancoMalvader {
     private String nome;
     private static JFrame frame;
 
+    // construtor
     public BancoMalvader(String nome) {
         this.nome = nome;
     }
 
+    // metodo main para inicializar o sistema
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             try {

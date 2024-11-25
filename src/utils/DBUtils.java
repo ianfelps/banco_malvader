@@ -14,10 +14,12 @@ public class DBUtils {
     private static String Sql;
     private static String SqlEndereco;
 
+    // metodo para gerar um codigo unico de funcionario utilizando UUID
     public static String GerarCodigoFunc() {
         return UUID.randomUUID().toString();
     }
 
+    // metodo para inserir um novo usuario no banco de dados
     public void insertNewUser(int idGerado, String tipoUser, String cargo, Endereco enderecoUsuario) {
         System.out.println("ID gerado: " + idGerado);
 
@@ -58,11 +60,11 @@ public class DBUtils {
                  PreparedStatement ps = conn.prepareStatement(Sql);
                  PreparedStatement ps3 = conn.prepareStatement(SqlEndereco)) {
 
-                // Insere dados na tabela 'cliente'
+                // insere dados na tabela 'cliente'
                 ps.setInt(1, idGerado);
                 ps.executeUpdate();
 
-                // Insere dados na tabela 'endereco'
+                // insere dados na tabela 'endereco'
                 ps3.setString(1, enderecoUsuario.getCep());
                 ps3.setString(2, enderecoUsuario.getLocal());
                 ps3.setInt(3, enderecoUsuario.getNumeroCasa());
@@ -79,18 +81,22 @@ public class DBUtils {
         }
     }
 
+    // metodo para retornar a query SQL armazenada na variavel SqlEndereco
     public static String getSqlEndereco() {
         return SqlEndereco;
     }
 
+    // metodo para definir a query SQL para a variavel SqlEndereco
     public static void setSqlEndereco(String sqlEndereco) {
         SqlEndereco = sqlEndereco;
     }
 
+    // metodo para definir a query SQL a ser executada
     public static String getSql() {
         return Sql;
     }
 
+    // metodo para obter a query SQL atual
     public static void setSql(String sql) {
         Sql = sql;
     }

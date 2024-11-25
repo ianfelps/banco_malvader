@@ -11,6 +11,7 @@ import java.util.List;
 
 public class RelatorioController {
 
+    // metodo para exportar o relatorio do usuário em formato CSV
     public void exportarRelatorioParaCSV(RelatorioUsuario relatorio) {
         String arquivoCSV = "relatorio_usuario.csv";
 
@@ -26,15 +27,13 @@ public class RelatorioController {
                         conta.getAgencia(),
                         String.valueOf(conta.getSaldo()),
                         conta.getTipoConta(),
-                        "", // Colunas vazias para alinhamento de dados de transação
+                        "", // colunas vazias para alinhamento de dados
                         "",
                         ""
                 };
                 writer.writeNext(linhaConta);
-
-                // Escreve transações relacionadas à conta
                 for (Transacao transacao : relatorio.getTransacoes()) {
-                    if (transacao.getIdConta() == conta.getIdConta()) { // Assumindo que há um método getIdConta
+                    if (transacao.getIdConta() == conta.getIdConta()) {
                         String[] linhaTransacao = {
                                 "",
                                 "",

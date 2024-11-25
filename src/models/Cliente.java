@@ -6,7 +6,7 @@ import java.util.Date;
 
 public class Cliente extends Usuario {
 
-    // Atributos adicionais do Cliente
+    // atributos adicionais do Cliente
     private String senha;
     private double saldo;
     private double limite;
@@ -15,6 +15,7 @@ public class Cliente extends Usuario {
     private String email;
     private String telefone;
 
+    // getters e setters
     @Override
     public String getTelefone() {
         return telefone;
@@ -77,7 +78,7 @@ public class Cliente extends Usuario {
         this.senha = senha;
     }
 
-    // Construtor
+    // construtor
     public Cliente(int id, String nome, String email, String cpf, String telefone, String senha, boolean validado) {
         super(id, nome, cpf, telefone, validado);
         this.senha = senha;
@@ -89,21 +90,18 @@ public class Cliente extends Usuario {
         this.telefone = telefone;
     }
 
-    // Método para calcular e retornar a idade do cliente com base na data de nascimento
+    // metodo para calcular e retornar a idade do cliente com base na data de nascimento
     public int calcularIdade(Date dataNascimento) {
         if (dataNascimento == null) return 0;
 
-        // Obtém a data atual
         Date dataAtual = new Date();
 
-        // Calcula a diferença de anos (simples, sem considerar meses e dias exatos)
         int idade = dataAtual.getYear() - dataNascimento.getYear();
 
-        // Retorna a idade
         return idade;
     }
 
-    // Método para imprimir informações do cliente (simplificado)
+    // metodo para imprimir informacoes do cliente
     @Override
     public String toString() {
         return "Cliente: " + getNome() + ", CPF: " + getCpf() + ", Telefone: " + getTelefone() +

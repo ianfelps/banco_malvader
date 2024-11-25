@@ -7,6 +7,7 @@ import models.Cliente;
 public class WelcomeView {
     private JFrame frame;
 
+    // metodo para exibir tela de boas vindas
     public WelcomeView(Cliente cliente) {
         frame = new JFrame("Bem-vindo");
         frame.setSize(300, 200);

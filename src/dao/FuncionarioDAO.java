@@ -13,6 +13,7 @@ public class FuncionarioDAO {
 
     private static String sql;
 
+    // metodo para obter um usuario (Cliente) do banco de dados baseado no email e senha fornecidos
     public Optional<Cliente> getUser(String email, String senha) {
         setSql("SELECT * FROM usuario WHERE email = ?");
 
@@ -59,6 +60,7 @@ public class FuncionarioDAO {
         }
     }
 
+    // metodo para inserir uma nova conta para um cliente com base nos detalhes fornecidos
     public String inserirConta(ContaCliente conta) {
         String selectUsuarioSql = "SELECT id_usuario FROM usuario WHERE cpf = ?";
         String selectClienteSql = "SELECT id_cliente FROM cliente WHERE id_usuario = ?";
@@ -68,7 +70,7 @@ public class FuncionarioDAO {
 
         try (Connection conn = ConnectionFactory.getConnection()) {
 
-            // 1. Buscar o id_usuario pelo CPF
+            // buscar o id_usuario pelo CPF
             int idUsuario = -1;
             try (PreparedStatement stmtUsuario = conn.prepareStatement(selectUsuarioSql)) {
                 stmtUsuario.setString(1, conta.getCpf());
@@ -81,7 +83,7 @@ public class FuncionarioDAO {
                 }
             }
 
-            // 2. Buscar o id_cliente usando o id_usuario encontrado
+            // buscar o id_cliente usando o id_usuario encontrado
             int idCliente = -1;
             try (PreparedStatement stmtCliente = conn.prepareStatement(selectClienteSql)) {
                 stmtCliente.setInt(1, idUsuario);
@@ -94,18 +96,18 @@ public class FuncionarioDAO {
                 }
             }
 
-            // 3. Inserir a conta usando o id_cliente encontrado
+            // inserir a conta usando o id_cliente encontrado
             int idConta = -1;  // Variável para armazenar o id_conta gerado
             try (PreparedStatement stmt = conn.prepareStatement(insertContaSql, Statement.RETURN_GENERATED_KEYS)) {
                 stmt.setString(1, conta.getNumeroConta());
                 stmt.setString(2, conta.getAgencia());
-                stmt.setDouble(3, 0.0);  // Saldo inicial zero
+                stmt.setDouble(3, 0.0);  // saldo inicial zero
                 stmt.setString(4, conta.getTipoConta());
                 stmt.setInt(5, idCliente);
 
                 stmt.executeUpdate();
 
-                // Obter o id_conta gerado
+                // obter o id_conta gerado
                 try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
                     if (generatedKeys.next()) {
                         idConta = generatedKeys.getInt(1);
@@ -115,7 +117,7 @@ public class FuncionarioDAO {
                 }
             }
 
-            // 4. Se a conta for do tipo "Corrente", inserir na tabela conta_corrente
+            // se a conta for do tipo "Corrente", inserir na tabela conta_corrente
             if ("Corrente".equals(conta.getTipoConta())) {
                 try (PreparedStatement stmtCorrente = conn.prepareStatement(insertContaCorrenteSql)) {
                     stmtCorrente.setInt(1, idConta);
@@ -126,7 +128,7 @@ public class FuncionarioDAO {
                     stmtCorrente.executeUpdate();
                 }
             }
-            // 5. Se a conta for do tipo "Poupança", inserir na tabela conta_poupanca
+            // se a conta for do tipo "Poupança", inserir na tabela conta_poupanca
             else if ("Poupança".equals(conta.getTipoConta())) {
                 try (PreparedStatement stmtPoupanca = conn.prepareStatement(insertContaPoupancaSql)) {
                     stmtPoupanca.setInt(1, idConta);
@@ -144,6 +146,7 @@ public class FuncionarioDAO {
         }
     }
 
+    // metodo para encerrar uma conta com base no número da conta fornecido
     public String encerrarConta(String numeroConta) {
         String selectContaSql = "SELECT id_conta, tipo_conta FROM conta WHERE numero_conta = ?";
         String deleteContaCorrenteSql = "DELETE FROM conta_corrente WHERE id_conta = ?";
@@ -154,7 +157,7 @@ public class FuncionarioDAO {
             int idConta = -1;
             String tipoConta = null;
 
-            // 1. Buscar a conta pelo número da conta
+            // buscar a conta pelo numero da conta
             try (PreparedStatement stmtSelect = conn.prepareStatement(selectContaSql)) {
                 stmtSelect.setString(1, numeroConta);
 
@@ -168,7 +171,7 @@ public class FuncionarioDAO {
                 }
             }
 
-            // 2. Excluir registros em tabelas associadas com base no tipo de conta
+            // excluir registros em tabelas associadas com base no tipo de conta
             if ("Corrente".equals(tipoConta)) {
                 try (PreparedStatement stmtDeleteCorrente = conn.prepareStatement(deleteContaCorrenteSql)) {
                     stmtDeleteCorrente.setInt(1, idConta);
@@ -181,7 +184,7 @@ public class FuncionarioDAO {
                 }
             }
 
-            // 3. Excluir a conta da tabela principal
+            // excluir a conta da tabela principal
             try (PreparedStatement stmtDeleteConta = conn.prepareStatement(deleteContaSql)) {
                 stmtDeleteConta.setInt(1, idConta);
                 stmtDeleteConta.executeUpdate();
@@ -195,17 +198,18 @@ public class FuncionarioDAO {
         }
     }
 
+    // metodo para consulta os dados do usuario e suas contas com base no CPF fornecido
     public UsuarioConta consultarDadosUsuario(String cpf) {
-        // Definindo a consulta SQL para obter os dados
+        // definindo a consulta SQL para obter os dados
         String sqlUsuario = "SELECT id_usuario, nome, email, cpf, data_nascimento, telefone, tipo_usuario FROM usuario WHERE cpf = ? ";
         String sqlCliente = "SELECT id_cliente FROM cliente WHERE id_usuario = ?";
         String sqlContas = "SELECT * FROM conta WHERE id_cliente = ?";
 
-        // Modelo para armazenar os dados do usuário e contas
+        // modelo para armazenar os dados do usuario e contas
         UsuarioConta usuarioConta = null;
 
         try (Connection conn = ConnectionFactory.getConnection()) {
-            // 1. Consultar os dados do usuário
+            // consultar os dados do usuario
             int idUsuario = -1;
             try (PreparedStatement stmtUsuario = conn.prepareStatement(sqlUsuario)) {
                 stmtUsuario.setString(1, cpf);
@@ -219,7 +223,7 @@ public class FuncionarioDAO {
                         String telefone = rs.getString("telefone");
                         String tipoUsuarioDB = rs.getString("tipo_usuario");
 
-                        // Criando o objeto UsuarioConta com os dados do usuário
+                        // criando o objeto UsuarioConta com os dados do usuario
                         usuarioConta = new UsuarioConta(nome, email, cpf, dataNascimento, telefone, tipoUsuarioDB);
                     } else {
                         System.out.println("Usuário não encontrado.");
@@ -228,7 +232,7 @@ public class FuncionarioDAO {
                 }
             }
 
-            // 2. Consultar o id_cliente com base no id_usuario
+            // consultar o id_cliente com base no id_usuario
             int idCliente = -1;
             try (PreparedStatement stmtCliente = conn.prepareStatement(sqlCliente)) {
                 stmtCliente.setInt(1, idUsuario);
@@ -243,7 +247,7 @@ public class FuncionarioDAO {
                 }
             }
 
-            // 3. Consultar as contas do usuário
+            // consultar as contas do usuario
             try (PreparedStatement stmtContas = conn.prepareStatement(sqlContas)) {
                 stmtContas.setInt(1, idCliente);
 
@@ -255,7 +259,7 @@ public class FuncionarioDAO {
                         double saldo = rsContas.getDouble("saldo");
                         String tipoConta = rsContas.getString("tipo_conta");
 
-                        // Adiciona as informações da conta ao objeto UsuarioConta
+                        // adiciona as informacoes da conta ao objeto UsuarioConta
                         usuarioConta.adicionarConta(idConta, numeroConta, agencia, saldo, tipoConta);
                     }
                 }
@@ -265,10 +269,11 @@ public class FuncionarioDAO {
             e.printStackTrace();
         }
 
-        // Retorna o objeto com todos os dados
+        // retorna o objeto com todos os dados
         return usuarioConta;
     }
 
+    // metodo para alterar os dados do usuario com base no CPF fornecido
     public boolean alterarDadosUsuario(String cpf, String telefone) {
         String sqlUsuario = "UPDATE usuario SET telefone = ? WHERE cpf = ?";
 
@@ -292,8 +297,9 @@ public class FuncionarioDAO {
         return true;
     }
 
+    // metodo para alterar o cargo de um funcionario com base no CPF fornecido
     public void alterarCargoFuncionario(String cpf, String cargo) {
-        // Definindo as consultas SQL
+        // definindo as consultas SQL
         String sqlAlterarUsuario = "UPDATE usuario SET tipo_usuario = 'funcionario' WHERE cpf = ?";
         String sqlSelecionarIdUsuario = "SELECT id_usuario FROM usuario WHERE cpf = ?";
         String sqlAlterarFuncionario = "UPDATE funcionario SET cargo = ? WHERE id_usuario = ?";
@@ -301,7 +307,7 @@ public class FuncionarioDAO {
         String sqlInserirFuncionario = "INSERT INTO funcionario (codigo_funcionario, cargo, id_usuario) VALUES (?, ?, ?)";
 
         try (Connection conn = ConnectionFactory.getConnection()) {
-            // 1. Alterar o tipo de usuário para 'funcionario'
+            // alterar o tipo de usuario para 'funcionario'
             try (PreparedStatement stmtAlterarUsuario = conn.prepareStatement(sqlAlterarUsuario)) {
                 stmtAlterarUsuario.setString(1, cpf);
                 int rowsAffected = stmtAlterarUsuario.executeUpdate();
@@ -312,7 +318,7 @@ public class FuncionarioDAO {
                 }
                 System.out.println("Tipo de usuário alterado para 'funcionario'.");
 
-                // 2. Selecionar o id_usuario com base no cpf
+                // selecionar o id_usuario com base no cpf
                 int idUsuario = -1;
                 try (PreparedStatement stmtSelecionarIdUsuario = conn.prepareStatement(sqlSelecionarIdUsuario)) {
                     stmtSelecionarIdUsuario.setString(1, cpf);
@@ -326,7 +332,7 @@ public class FuncionarioDAO {
                     }
                 }
 
-                // 3. Verificar se o funcionário já existe na tabela 'funcionario'
+                // verificar se o funcionario ja existe na tabela 'funcionario'
                 boolean funcionarioExistente = false;
                 try (PreparedStatement stmtVerificarFuncionario = conn.prepareStatement(sqlVerificarFuncionarioExistente)) {
                     stmtVerificarFuncionario.setInt(1, idUsuario);
@@ -337,7 +343,7 @@ public class FuncionarioDAO {
                     }
                 }
 
-                // 4. Caso o funcionário já exista, atualizar o cargo
+                // caso o funcionario ja exista, atualizar o cargo
                 if (funcionarioExistente) {
                     try (PreparedStatement stmtAlterarFuncionario = conn.prepareStatement(sqlAlterarFuncionario)) {
                         stmtAlterarFuncionario.setString(1, cargo);
@@ -351,7 +357,7 @@ public class FuncionarioDAO {
                         }
                     }
                 } else {
-                    // 5. Caso o funcionário não exista, inserir um novo funcionário
+                    // caso o funcionario nao exista, inserir um novo funcionario
                     String codigoFuncionario = UUID.randomUUID().toString();
                     try (PreparedStatement stmtInserirFuncionario = conn.prepareStatement(sqlInserirFuncionario)) {
                         stmtInserirFuncionario.setString(1, codigoFuncionario);
@@ -375,6 +381,7 @@ public class FuncionarioDAO {
         }
     }
 
+    // metodo para gerra um relatorio de um usuario com base no CPF fornecido
     public RelatorioUsuario gerarRelatorioDAO(String cpf) {
         String sqlSelecionarIdUsuario = "SELECT id_usuario FROM usuario WHERE cpf = ?";
         String sqlSelecionarIdCliente = "SELECT id_cliente FROM cliente WHERE id_usuario = ?";
@@ -456,11 +463,12 @@ public class FuncionarioDAO {
     }
 
 
-
+    // metodo para definir a query SQL a ser executada
     public static void setSql(String sql) {
         FuncionarioDAO.sql = sql;
     }
 
+    // metodo para obter a query SQL atual
     public static String getSql() {
         return sql;
     }
