@@ -35,7 +35,7 @@ Pasta que define as classes de modelo (entidades) utilizadas na aplicação.
 * **UsuarioConta:** Classe que representa um usuário e suas contas.
 ### startpoint
 Pasta que contém classes iniciais e utilitárias da aplicação.
-* **BancoMalvader:** Classe principal que inicia o aplicativo, configurando a interface inicial e gerenciando a execução do sistema.
+* **BancoMalvader:** Classe principal que inicia o aplicativo, configurando a interface inicial e gerenciando a execução do sistema!
 * **ConexaoBanco:** Classe para gerenciar a conexão com o banco de dados.
 * **Relatorio:** Classe que representa um relatório genérico.
 * **Usuario:** Classe abstrata que define a estrutura básica para usuários.
