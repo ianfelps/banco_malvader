@@ -61,7 +61,7 @@ public class BancoController {
             } else {
                 StringBuilder relatorio = new StringBuilder("Relatório de Transações:\n");
                 for (Transacao transacao : transacoes) {
-                    relatorio.append("- ").append(transacao.getTipo()).append(": R$ ").append(transacao.getValor()).append("\n");
+                    relatorio.append("- ").append(transacao.getTipoTransacao()).append(": R$ ").append(transacao.getValor()).append("\n");
                 }
                 JOptionPane.showMessageDialog(null, relatorio.toString(), "Relatório", JOptionPane.INFORMATION_MESSAGE);
                 new CSVExporter().exportarParaCSV(transacoes, "transacoes.csv");

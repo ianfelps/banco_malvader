@@ -12,10 +12,6 @@ public class BancoMalvader {
         this.nome = nome;
     }
 
-    public void iniciarSistema() {
-        // ...
-    }
-
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             try {

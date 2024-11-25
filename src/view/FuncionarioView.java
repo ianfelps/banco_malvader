@@ -1,7 +1,9 @@
 package view;
 
+import controllers.RelatorioController;
 import controllers.UsuarioController;
-import models.Cliente;
+import dao.FuncionarioDAO;
+import models.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -155,26 +157,53 @@ public class FuncionarioView extends JFrame {
             panel.add(enderecoField);
 
             panel.add(new JLabel("Senha:"));
-            JTextField senhaField = new JTextField();
+            JPasswordField senhaField = new JPasswordField();
             panel.add(senhaField);
+
+            JTextField limiteField = null;
+            JTextField dataVencimentoField = null;
 
             if (tipoConta.equals("Corrente")) {
                 panel.add(new JLabel("Limite da conta:"));
-                JTextField limiteField = new JTextField();
+                limiteField = new JTextField();
                 panel.add(limiteField);
 
                 panel.add(new JLabel("Data de vencimento:"));
-                JTextField dataVencimentoField = new JTextField();
+                dataVencimentoField = new JTextField();
                 panel.add(dataVencimentoField);
             }
 
             int result = JOptionPane.showConfirmDialog(this, panel, "Abertura de Conta", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
             if (result == JOptionPane.OK_OPTION) {
-                JOptionPane.showMessageDialog(this, "Conta " + tipoConta + " criada com sucesso!");
+                ContaCliente conta;
+                String agencia = agenciaField.getText();
+                String numeroConta = numeroContaField.getText();
+                String nomeCliente = nomeClienteField.getText();
+                String cpf = cpfField.getText();
+                String dataNascimento = dataNascimentoField.getText();
+                String telefone = telefoneField.getText();
+                String endereco = enderecoField.getText();
+                String senha = new String(senhaField.getPassword());
+
+                if (tipoConta.equals("Corrente")) {
+                    double limite = Double.parseDouble(limiteField.getText());
+                    String dataVencimento = dataVencimentoField.getText();
+                    conta = new ContaCliente(agencia, numeroConta, nomeCliente, cpf, dataNascimento,
+                            telefone, endereco, senha, tipoConta, limite, dataVencimento);
+                } else {
+                    conta = new ContaCliente(agencia, numeroConta, nomeCliente, cpf, dataNascimento,
+                            telefone, endereco, senha, tipoConta);
+                }
+
+                FuncionarioDAO funcionarioDao = new FuncionarioDAO();
+
+
+                JOptionPane.showMessageDialog(this, funcionarioDao.inserirConta(conta));
             }
         }
     }
+
 
     private void encerrarConta() {
         JPanel panel = new JPanel(new GridLayout(0, 2, 10, 10));
@@ -192,9 +221,11 @@ public class FuncionarioView extends JFrame {
         if (result == JOptionPane.OK_OPTION) {
             String senhaAdmin = new String(senhaAdminField.getPassword());
             if (senhaAdmin.equals("admin123")) {
-                JOptionPane.showMessageDialog(this, "Conta " + numeroContaField.getText() + " encerrada com sucesso!");
+                FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
+
+                JOptionPane.showMessageDialog(this, funcionarioDAO.encerrarConta(numeroContaField.getText()));
             } else {
-                JOptionPane.showMessageDialog(this, "Senha incorreta.");
+                JOptionPane.showMessageDialog(this, "Senha incorreta!", "Erro", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
@@ -203,102 +234,107 @@ public class FuncionarioView extends JFrame {
     private void consultarDados() {
         String[] opcoes = {"Conta", "Funcionário", "Cliente"};
         String escolha = (String) JOptionPane.showInputDialog(this, "Escolha uma opção para consultar:", "Consulta de Dados",
-                JOptionPane.PLAIN_MESSAGE, null, opcoes, opcoes[0]);
+        JOptionPane.PLAIN_MESSAGE, null, opcoes, opcoes[0]);
+
         if (escolha != null) {
-            JOptionPane.showMessageDialog(this, "Exibindo dados de " + escolha + ".");
+            String cpf = JOptionPane.showInputDialog(this, "Digite o CPF do usuário:", "Consulta de Dados", JOptionPane.PLAIN_MESSAGE);
+
+            if (cpf != null && !cpf.trim().isEmpty()) {
+
+                FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
+
+                UsuarioConta contas = funcionarioDAO.consultarDadosUsuario(cpf);
+
+                if(contas != null) {
+                    JPanel panel = new JPanel();
+                    panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));  // Layout vertical
+
+                    panel.add(new JLabel("Nome: " + contas.getNome()));
+                    panel.add(new JLabel("Email: " + contas.getEmail()));
+                    panel.add(new JLabel("CPF: " + contas.getCpf()));
+                    panel.add(new JLabel("Data de Nascimento: " + contas.getDataNascimento()));
+                    panel.add(new JLabel("Telefone: " + contas.getTelefone()));
+                    panel.add(new JLabel("Tipo de Usuário: " + contas.getTipoUsuario()));
+
+                    // Exibindo as contas do usuário
+                    panel.add(new JLabel("Contas do Usuário:"));
+                    for (UsuarioConta.Conta conta : contas.getContas()) {
+                        panel.add(new JLabel("Conta: " + conta.getNumeroConta() +
+                                ", Agência: " + conta.getAgencia() +
+                                ", Saldo: " + conta.getSaldo() +
+                                ", Tipo de Conta: " + conta.getTipoConta()));
+                    }
+
+                    JOptionPane.showMessageDialog(null, panel, "Dados do Usuário", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    // Caso o usuário não seja encontrado ou não haja dados
+                    JOptionPane.showMessageDialog(null, "Usuário não encontrado ou dados inconsistentes.",
+                            "Erro", JOptionPane.ERROR_MESSAGE);
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(this, "CPF não informado. A consulta não será realizada.", "Erro", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 
     private void alterarDados() {
-        String[] opcoes = {"Conta", "Funcionário", "Cliente"};
-        String escolha = (String) JOptionPane.showInputDialog(this, "Escolha uma opção para alterar:", "Alteração de Dados",
-                JOptionPane.PLAIN_MESSAGE, null, opcoes, opcoes[0]);
 
-        if (escolha != null) {
             JPanel panel = new JPanel(new GridLayout(0, 2, 10, 10));
+            JTextField cpfField = new JTextField();
+            panel.add(new JLabel("CPF do usuário:"));
+            panel.add(cpfField);
 
-            switch (escolha) {
-                case "Conta" -> {
-                    panel.add(new JLabel("Novo limite:"));
-                    JTextField limiteField = new JTextField();
-                    panel.add(limiteField);
+            FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
 
-                    panel.add(new JLabel("Nova data de vencimento:"));
-                    JTextField vencimentoField = new JTextField();
-                    panel.add(vencimentoField);
-                }
-                case "Funcionário" -> {
-                    panel.add(new JLabel("Novo cargo:"));
-                    JTextField cargoField = new JTextField();
-                    panel.add(cargoField);
-
-                    panel.add(new JLabel("Novo telefone:"));
-                    JTextField telefoneField = new JTextField();
-                    panel.add(telefoneField);
-
-                    panel.add(new JLabel("Novo endereço:"));
-                    JTextField enderecoField = new JTextField();
-                    panel.add(enderecoField);
-                }
-                case "Cliente" -> {
-                    panel.add(new JLabel("Novo telefone:"));
-                    JTextField telefoneField = new JTextField();
-                    panel.add(telefoneField);
-
-                    panel.add(new JLabel("Novo endereço:"));
-                    JTextField enderecoField = new JTextField();
-                    panel.add(enderecoField);
-                }
-            }
+            panel.add(new JLabel("Novo telefone:"));
+            JTextField telefoneField = new JTextField();
+            panel.add(telefoneField);
 
             int result = JOptionPane.showConfirmDialog(this, panel, "Alteração de Dados", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
             if (result == JOptionPane.OK_OPTION) {
-                JOptionPane.showMessageDialog(this, escolha + " atualizado com sucesso!");
+                String cpf = cpfField.getText();
+
+                // Usando FuncionarioDAO para consultar os dados do usuário
+                UsuarioConta usuarioConta = funcionarioDAO.consultarDadosUsuario(cpf);
+
+                if (usuarioConta != null) {
+
+                    String telefone = telefoneField.getText();
+                    System.out.println(telefone);
+                    funcionarioDAO.alterarDadosUsuario(cpf, telefone);
+
+                    JOptionPane.showMessageDialog(this, "Atualizado com sucesso!");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Usuario não encontrado.", "Erro", JOptionPane.ERROR_MESSAGE);
+                }
             }
-        }
     }
 
 
     private void cadastrarFuncionario() {
         JPanel panel = new JPanel(new GridLayout(0, 2, 10, 10));
 
-        panel.add(new JLabel("Código do funcionário:"));
-        JTextField codigoField = new JTextField();
-        panel.add(codigoField);
+        panel.add(new JLabel("CPF:"));
+        JTextField cpfField = new JTextField();
+        panel.add(cpfField);
 
         panel.add(new JLabel("Cargo:"));
         JTextField cargoField = new JTextField();
         panel.add(cargoField);
 
-        panel.add(new JLabel("Nome:"));
-        JTextField nomeField = new JTextField();
-        panel.add(nomeField);
-
-        panel.add(new JLabel("CPF:"));
-        JTextField cpfField = new JTextField();
-        panel.add(cpfField);
-
-        panel.add(new JLabel("Data de nascimento:"));
-        JTextField dataNascimentoField = new JTextField();
-        panel.add(dataNascimentoField);
-
-        panel.add(new JLabel("Telefone:"));
-        JTextField telefoneField = new JTextField();
-        panel.add(telefoneField);
-
-        panel.add(new JLabel("Endereço completo:"));
-        JTextField enderecoField = new JTextField();
-        panel.add(enderecoField);
 
         int result = JOptionPane.showConfirmDialog(this, panel, "Cadastro de Funcionário", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
         if (result == JOptionPane.OK_OPTION) {
             String senhaAdmin = JOptionPane.showInputDialog(this, "Digite a senha do administrador:");
             if (senhaAdmin != null && senhaAdmin.equals("admin123")) {
+                FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
+                funcionarioDAO.alterarCargoFuncionario(cpfField.getText(), cargoField.getText());
                 JOptionPane.showMessageDialog(this, "Funcionário cadastrado com sucesso!");
             } else {
-                JOptionPane.showMessageDialog(this, "Senha incorreta.");
+                JOptionPane.showMessageDialog(this, "Senha incorreta!", "Erro", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
@@ -306,9 +342,60 @@ public class FuncionarioView extends JFrame {
     private void gerarRelatorio() {
         String senhaAdmin = JOptionPane.showInputDialog(this, "Digite a senha do administrador:");
         if (senhaAdmin != null && senhaAdmin.equals("admin123")) {
-            JOptionPane.showMessageDialog(this, "Relatório gerado com sucesso!");
+            String cpfDoUsuario = JOptionPane.showInputDialog(this, "Digite o CPF do usuário que deseja o relatório:");
+
+            FuncionarioDAO dao = new FuncionarioDAO();
+            RelatorioUsuario relatorio = dao.gerarRelatorioDAO(cpfDoUsuario);
+
+            if (relatorio != null) {
+                RelatorioController controller = new RelatorioController();
+                controller.exportarRelatorioParaCSV(relatorio);
+                JOptionPane.showMessageDialog(this, "Relatório exportado com sucesso!");
+
+                // Criando a estrutura da janela do relatório
+                JFrame relatorioFrame = new JFrame("Relatório do Usuário");
+                relatorioFrame.setSize(500, 400);
+                relatorioFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                relatorioFrame.setLocationRelativeTo(null);
+
+                // Criando a área de texto e configurando o layout
+                JTextArea textArea = new JTextArea();
+                textArea.setEditable(false);
+
+                // Montando o conteúdo do relatório
+                StringBuilder relatorioTexto = new StringBuilder();
+                relatorioTexto.append("Relatório do Usuário - CPF: ").append(cpfDoUsuario).append("\n\n");
+
+                // Informações das Contas
+                for (UsuarioConta.Conta conta : relatorio.getContas()) {
+                    relatorioTexto.append("Conta: ").append(conta.getNumeroConta())
+                            .append(" | Agência: ").append(conta.getAgencia())
+                            .append(" | Saldo: R$ ").append(conta.getSaldo())
+                            .append("\n");
+                }
+                relatorioTexto.append("\n");
+
+                // Informações das Transações
+                for (Transacao transacao : relatorio.getTransacoes()) {
+                    relatorioTexto.append("Transação: ").append(transacao.getTipoTransacao())
+                            .append(" | Valor: R$ ").append(transacao.getValor())
+                            .append(" | Data: ").append(transacao.getDataTransacao())
+                            .append("\n");
+                }
+
+                // Definindo o texto no JTextArea e adicionando um scroll
+                textArea.setText(relatorioTexto.toString());
+                JScrollPane scrollPane = new JScrollPane(textArea);
+                relatorioFrame.add(scrollPane);
+
+                // Exibindo a janela
+                relatorioFrame.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(this, "Relatorio não encontrado!", "Erro", JOptionPane.ERROR_MESSAGE);
+            }
         } else {
-            JOptionPane.showMessageDialog(this, "Senha incorreta.");
+            JOptionPane.showMessageDialog(this, "Senha incorreta!", "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
+
 }

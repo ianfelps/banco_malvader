@@ -108,15 +108,18 @@ public class BancoDAO {
     }
 
     public List<Transacao> obterTransacoes() throws SQLException {
-        String query = "SELECT tipo_transacao, valor FROM transacao WHERE id_conta = ? ORDER BY id_transacao DESC";
+        String query = "SELECT * FROM transacao WHERE id_conta = ? ORDER BY id_transacao DESC";
         List<Transacao> transacoes = new ArrayList<>();
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, idConta);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
+                int idTransacao = rs.getInt("id_transacao");
                 String tipo = rs.getString("tipo_transacao");
                 double valor = rs.getDouble("valor");
-                transacoes.add(new Transacao(idConta, tipo, valor));
+                String dataTransacao = rs.getString("data_hora");
+                int idConta = rs.getInt("id_conta");
+                transacoes.add(new Transacao(idTransacao, idConta, tipo, valor, dataTransacao));
             }
         }
         return transacoes;

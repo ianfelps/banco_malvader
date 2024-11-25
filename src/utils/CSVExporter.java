@@ -18,7 +18,7 @@ public class CSVExporter {
             for (Transacao transacao : transacoes) {
                 String[] linha = {
                         String.valueOf(transacao.getIdConta()),
-                        transacao.getTipo(),
+                        transacao.getTipoTransacao(),
                         String.valueOf(transacao.getValor())
                 };
                 writer.writeNext(linha);
