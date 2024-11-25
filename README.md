@@ -54,6 +54,7 @@ Pasta que contém as interfaces de usuário (UI) da aplicação.
 * **WelcomeView:** Classe que exibe uma mensagem de boas-vindas ao usuário após o login.
 
 ## Estrutura do Banco
+![Diagrama de Banco](/diagramas/DiagramaBanco.png "Diagrama de Banco")
 ###	Tabela usuario
 Armazena dados comuns para usuários do sistema, tanto funcionários quanto clientes.
 *	**id_usuario (PK, INT, AUTO_INCREMENT):** Identificador único do usuário.
