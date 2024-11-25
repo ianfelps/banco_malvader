@@ -231,13 +231,13 @@ O usuário escolhe entre:
 * **Geração de Relatórios:**  
   Criar relatórios gerais e exportar para Excel (requer senha de administrador).  
 * **Exibir Saldo:**  
-  Mostrar o saldo da conta bancária (requer autenticação com senha).  
+  Mostrar o saldo da conta bancária (requer autenticação com senha).
 * **Depositar:**  
   Realizar depósitos em contas bancárias, solicitando o valor e a senha.  
 * **Sacar:**  
   Realizar saques, verificando o saldo disponível e solicitando autenticação com senha.  
 * **Exibir Extrato:**  
-  Apresentar o extrato da conta com detalhes das movimentações e opção de exportação para Excel.  
+  Apresentar o extrato da conta com detalhes das movimentações e opção de exportação para Excel! 
 * **Consultar Limite:**  
   Mostrar o limite disponível da conta bancária (requer autenticação com senha).  
 * **Sair de Sessão:**  
